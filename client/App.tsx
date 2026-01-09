@@ -20,7 +20,7 @@ import { useSecretUnlock } from "./hooks/useSecretUnlock";
 const queryClient = new QueryClient();
 
 function AppContent() {
-  const { isUnlocked, lock } = useSecretUnlock('', 8);
+  const { isUnlocked, lock } = useSecretUnlock("", 8);
   const [adminPanelOpen, setAdminPanelOpen] = useState(false);
 
   const handleAdminPanel = () => {
@@ -43,7 +43,10 @@ function AppContent() {
         </Routes>
       </div>
       <BottomNavigation />
-      <AdminPanel isOpen={adminPanelOpen} onClose={() => setAdminPanelOpen(false)} />
+      <AdminPanel
+        isOpen={adminPanelOpen}
+        onClose={() => setAdminPanelOpen(false)}
+      />
     </div>
   );
 }

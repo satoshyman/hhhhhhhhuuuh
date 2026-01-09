@@ -1,6 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-export const useSecretUnlock = (secretCode: string = 'ADMIN', tapCount: number = 8) => {
+export const useSecretUnlock = (
+  secretCode: string = "ADMIN",
+  tapCount: number = 8,
+) => {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const tapCountRef = useRef(0);
   const lastTapRef = useRef(0);
@@ -8,7 +11,7 @@ export const useSecretUnlock = (secretCode: string = 'ADMIN', tapCount: number =
   useEffect(() => {
     const handleTap = () => {
       const now = Date.now();
-      
+
       // Reset if more than 2 seconds passed since last tap
       if (now - lastTapRef.current > 2000) {
         tapCountRef.current = 0;
@@ -25,10 +28,10 @@ export const useSecretUnlock = (secretCode: string = 'ADMIN', tapCount: number =
     };
 
     // Add event listener to document for any tap/click
-    document.addEventListener('click', handleTap, true);
+    document.addEventListener("click", handleTap, true);
 
     return () => {
-      document.removeEventListener('click', handleTap, true);
+      document.removeEventListener("click", handleTap, true);
     };
   }, [tapCount]);
 
