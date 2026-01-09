@@ -6,23 +6,65 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { useState } from "react";
+
+import Mining from "./pages/Mining";
+import Tasks from "./pages/Tasks";
+import Referrals from "./pages/Referrals";
+import Withdraw from "./pages/Withdraw";
 import NotFound from "./pages/NotFound";
+import { BottomNavigation } from "./components/BottomNavigation";
+import { AdminPanel } from "./components/AdminPanel";
+import { AppProvider } from "./lib/AppProvider";
+import { useSecretUnlock } from "./hooks/useSecretUnlock";
 
 const queryClient = new QueryClient();
+
+const AppContent = () => {
+  const { isUnlocked, lock } = useSecretUnlock('', 8);
+  const [adminPanelOpen, setAdminPanelOpen] = useState(false);
+
+  // Open admin panel when unlocked
+  const handleAdminOpen = () => {
+    if (isUnlocked) {
+      setAdminPanelOpen(true);
+      lock();
+    }
+  };
+
+  // Auto open admin panel when unlocked
+  const handleAdminPanel = () => {
+    handleAdminOpen();
+  };
+
+  return (
+    <div className="min-h-screen bg-white max-w-md mx-auto relative">
+      <div onClick={handleAdminPanel}>
+        <Routes>
+          <Route path="/" element={<Mining />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/referrals" element={<Referrals />} />
+          <Route path="/withdraw" element={<Withdraw />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+      <BottomNavigation />
+      <AdminPanel isOpen={adminPanelOpen} onClose={() => setAdminPanelOpen(false)} />
+    </div>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AppProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </AppProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
