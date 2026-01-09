@@ -19,17 +19,6 @@ export default function Index() {
     return () => clearInterval(miningInterval);
   }, [adminConfig.miningAmount, setMiningBalance]);
 
-  // Update user balance with mined amount
-  useEffect(() => {
-    if (currentUser) {
-      setCurrentUser({
-        ...currentUser,
-        balance: miningBalance,
-        miningRate: adminConfig.miningAmount,
-      });
-    }
-  }, [miningBalance, currentUser, setCurrentUser, adminConfig.miningAmount]);
-
   // Check daily bonus availability
   useEffect(() => {
     const today = new Date().toDateString();
