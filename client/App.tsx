@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
-import Mining from "./pages/Mining";
+import Index from "./pages/Index";
 import Tasks from "./pages/Tasks";
 import Referrals from "./pages/Referrals";
 import Withdraw from "./pages/Withdraw";
