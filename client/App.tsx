@@ -20,21 +20,16 @@ import { useSecretUnlock } from "./hooks/useSecretUnlock";
 
 const queryClient = new QueryClient();
 
-const AppContent = () => {
+function AppContent() {
   const { isUnlocked, lock } = useSecretUnlock('', 8);
   const [adminPanelOpen, setAdminPanelOpen] = useState(false);
 
   // Open admin panel when unlocked
-  const handleAdminOpen = () => {
+  const handleAdminPanel = () => {
     if (isUnlocked) {
       setAdminPanelOpen(true);
       lock();
     }
-  };
-
-  // Auto open admin panel when unlocked
-  const handleAdminPanel = () => {
-    handleAdminOpen();
   };
 
   return (
@@ -53,20 +48,22 @@ const AppContent = () => {
       <AdminPanel isOpen={adminPanelOpen} onClose={() => setAdminPanelOpen(false)} />
     </div>
   );
-};
+}
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <AppProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
-      </AppProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function AppWrapper() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <AppProvider>
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </AppProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(<AppWrapper />);
