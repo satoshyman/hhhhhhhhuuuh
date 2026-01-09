@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useAppContext } from '@/lib/appContext';
 import { Gift } from 'lucide-react';
 
@@ -7,17 +7,20 @@ export default function Index() {
   const [dailyBonusAvailable, setDailyBonusAvailable] = useState(true);
   const [lastBonusDate, setLastBonusDate] = useState<string | null>(null);
 
+  // Memoize mining amount to prevent infinite loops
+  const miningAmount = useMemo(() => adminConfig.miningAmount, [adminConfig.miningAmount]);
+
   // Mining simulation - increments balance
   useEffect(() => {
     const miningInterval = setInterval(() => {
       setMiningBalance(prev => {
-        const newBalance = parseFloat((prev + adminConfig.miningAmount).toFixed(8));
+        const newBalance = parseFloat((prev + miningAmount).toFixed(8));
         return newBalance;
       });
     }, 1000);
 
     return () => clearInterval(miningInterval);
-  }, [adminConfig.miningAmount, setMiningBalance]);
+  }, [miningAmount, setMiningBalance]);
 
   // Check daily bonus availability
   useEffect(() => {
