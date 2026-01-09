@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { AppContext, AppContextType, User, Task, Withdrawal, AppConfig } from './appContext';
 
 const DEFAULT_CONFIG: AppConfig = {
