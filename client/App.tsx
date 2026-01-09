@@ -1,7 +1,6 @@
 import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
-import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -24,7 +23,6 @@ function AppContent() {
   const { isUnlocked, lock } = useSecretUnlock('', 8);
   const [adminPanelOpen, setAdminPanelOpen] = useState(false);
 
-  // Open admin panel when unlocked
   const handleAdminPanel = () => {
     if (isUnlocked) {
       setAdminPanelOpen(true);
@@ -50,7 +48,7 @@ function AppContent() {
   );
 }
 
-function AppWrapper() {
+export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -65,5 +63,3 @@ function AppWrapper() {
     </QueryClientProvider>
   );
 }
-
-createRoot(document.getElementById("root")!).render(<AppWrapper />);
