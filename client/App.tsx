@@ -41,7 +41,7 @@ const AppContent = () => {
     <div className="min-h-screen bg-white max-w-md mx-auto relative">
       <div onClick={handleAdminPanel}>
         <Routes>
-          <Route path="/" element={<Mining />} />
+          <Route path="/" element={<Index />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/referrals" element={<Referrals />} />
           <Route path="/withdraw" element={<Withdraw />} />
